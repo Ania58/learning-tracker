@@ -57,6 +57,34 @@ enum LearningStatus {
         return true;
     }
 
+    removeTopic(id:number) :boolean {
+      const topicIndex = this.myTopics.findIndex(topic => topic.id === id);
+      if (topicIndex === -1) {
+        console.error(`Topic with the ID ${id} not found.`);
+        return false;
+      }
+      this.myTopics.splice(topicIndex, 1);
+      console.log(`Topic with ID ${id} removed.`);
+      return true;
+    };
+
+    filterTopicsByStatus(status: LearningStatus): LearningTopic[] {
+      console.log(`Filtering topics by status: ${status}`)
+      return this.myTopics.filter(topic => topic.status === status);
+    }
+
+    groupTopicsByStatus(): Record<LearningStatus, LearningTopic[]> {
+      const groupedTopics: Record<LearningStatus, LearningTopic[]> = {
+        [LearningStatus.Curious]: [],
+        [LearningStatus.Mastered]: [],
+        [LearningStatus.Practicing]: [],
+      }
+      this.myTopics.forEach((topic) => {
+        groupedTopics[topic.status].push(topic)
+      })
+      console.log("Grouped topics by status:", groupedTopics);
+      return groupedTopics;
+    }
   }
 
   const tracker = new LearningTracker();
@@ -70,4 +98,6 @@ enum LearningStatus {
   console.log("My learning topics:", tracker.topics);
   
   tracker.updateTopic(2, { notes: "Switched to a different framework", category: "Frontend" });
+  tracker.filterTopicsByStatus(LearningStatus.Curious);
+  tracker.groupTopicsByStatus();
   tracker.printTopics();
