@@ -1,3 +1,4 @@
+
 enum LearningStatus {
     Mastered = "mastered",
     Practicing = "practicing",
@@ -10,27 +11,41 @@ enum LearningStatus {
     category?: string; 
     status: LearningStatus;
     notes?: string;
+    id: number;
   };
-  
-  const myTopics: LearningTopic[] = [];
-  
 
-  function addTopic(name: string, status: LearningStatus, notes?: string, category?: string) {
-    const topic: LearningTopic = {
-      name,
-      status,
-      notes,
-      category,
+  class LearningTracker {
+    private myTopics: LearningTopic[] = [];
+
+    static nextId = 1;
+    
+    addTopic(name: string, status: LearningStatus, notes?: string, category?: string) {
+      const topic: LearningTopic = {
+        name,
+        status,
+        notes,
+        category,
+        id: LearningTracker.nextId++
+      };
+      this.myTopics.push(topic)
     };
-  
-    myTopics.push(topic);
+    
+    get topics() {
+      return this.myTopics
+    } 
+
+    get count () {
+      return this.myTopics.length;
+    }
   }
+
+  const tracker = new LearningTracker();
   
 
-  addTopic("Photography basics", LearningStatus.Curious, "Want to explore composition", "Art");
-  addTopic("TypeScript fundamentals", LearningStatus.Practicing, "Building small projects", "Tech");
-  addTopic("Healthy cooking", LearningStatus.Mastered, "Meal prepping consistently", "Health");
+  tracker.addTopic("Photography basics", LearningStatus.Curious, "Want to explore composition", "Art");
+  tracker.addTopic("TypeScript fundamentals", LearningStatus.Practicing, "Building small projects", "Tech");
+  tracker.addTopic("Healthy cooking", LearningStatus.Mastered, "Meal prepping consistently", "Health");
   
 
-  console.log("My learning topics:", myTopics);
+  console.log("My learning topics:", tracker.topics);
   
