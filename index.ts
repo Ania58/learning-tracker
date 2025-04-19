@@ -45,6 +45,18 @@ enum LearningStatus {
         console.log('');
       });
     }
+
+    updateTopic(id: number, updates: Partial<LearningTopic>): boolean {
+      const topicIndex = this.myTopics.findIndex(topic => topic.id === id);
+      if (topicIndex === -1) {
+        console.error(`Topic with ID ${id} not found.`)
+        return false;
+      } 
+        const topic = this.myTopics[topicIndex];
+        this.myTopics[topicIndex] = {...topic,...updates};
+        return true;
+    }
+
   }
 
   const tracker = new LearningTracker();
@@ -57,4 +69,5 @@ enum LearningStatus {
 
   console.log("My learning topics:", tracker.topics);
   
+  tracker.updateTopic(2, { notes: "Switched to a different framework", category: "Frontend" });
   tracker.printTopics();
