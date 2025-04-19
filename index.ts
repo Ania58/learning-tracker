@@ -37,6 +37,14 @@ enum LearningStatus {
     get count () {
       return this.myTopics.length;
     }
+
+    printTopics() {
+      this.myTopics.forEach((topic) => {
+        console.log(`Topic: #${topic.id} - ${topic.name} [${topic.status}] (${topic.category ?? "No category"})`);
+        console.log(`Notes: ${topic.notes ?? "No notes"}`);
+        console.log('');
+      });
+    }
   }
 
   const tracker = new LearningTracker();
@@ -49,3 +57,4 @@ enum LearningStatus {
 
   console.log("My learning topics:", tracker.topics);
   
+  tracker.printTopics();
