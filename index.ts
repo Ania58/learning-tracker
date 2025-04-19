@@ -101,3 +101,57 @@ enum LearningStatus {
   tracker.filterTopicsByStatus(LearningStatus.Curious);
   tracker.groupTopicsByStatus();
   tracker.printTopics();
+
+
+  abstract class LearningEntry {
+    static nextId = 1;
+    readonly id: number;
+    readonly date: Date;
+    notes?: string;
+
+    constructor (
+    id: number,
+    date: Date,
+    notes?: string,
+    ) {
+      this.id = id;
+      this.date = date;
+      this.notes = notes;
+    }
+    abstract print(): void;
+  };
+
+  class LearningTopic2 extends LearningEntry implements Printable {
+    constructor (public name:string, public status: LearningStatus, public category?: string, notes?: string) {
+      super(LearningEntry.nextId++, new Date(), notes);
+    }
+    print() : void {
+      console.log(`#${this.id} - ${this.name} [${this.status}]`);
+      console.log(`Category: ${this.category ?? "None"}`);
+      console.log(`Notes: ${this.notes ?? "None"}`);
+    }
+  };
+
+  class LearningSession extends LearningEntry implements Printable{
+    constructor (
+      public duration: number,
+      public method: string,
+      notes?: string,
+    ) {
+      super(LearningEntry.nextId++, new Date(), notes)
+    }
+    print(): void {
+      console.log(`#${this.id} - Learning Session (${this.method}, ${this.duration} min)`);
+      console.log(`Notes: ${this.notes ?? "None"}`);
+    }
+  };
+
+  interface Printable {
+    print(): void;
+  };
+
+const topic = new LearningTopic2("TypeScript", LearningStatus.Practicing, "Tech", "Reviewing advanced types");
+const session = new LearningSession(60, "reading", "Studied TypeScript docs");
+
+topic.print();
+session.print();
