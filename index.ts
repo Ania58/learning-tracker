@@ -121,7 +121,7 @@ enum LearningStatus {
     abstract print(): void;
   };
 
-  class LearningTopic2 extends LearningEntry implements Printable {
+  class LearningTopicEntry extends LearningEntry implements Printable {
     constructor (public name:string, public status: LearningStatus, public category?: string, notes?: string) {
       super(LearningEntry.nextId++, new Date(), notes);
     }
@@ -150,7 +150,7 @@ enum LearningStatus {
     print(): void;
   };
 
-const topic = new LearningTopic2("TypeScript", LearningStatus.Practicing, "Tech", "Reviewing advanced types");
+const topic = new LearningTopicEntry("TypeScript", LearningStatus.Practicing, "Tech", "Reviewing advanced types");
 const session = new LearningSession(60, "reading", "Studied TypeScript docs");
 
 topic.print();
@@ -174,10 +174,10 @@ private entries: T[] = [];
   }
 };
 
-const topicTracker = new Tracker<LearningTopic2>();
+const topicTracker = new Tracker<LearningTopicEntry>();
 const sessionTracker = new Tracker<LearningSession>();
 
-topicTracker.add(new LearningTopic2("React", LearningStatus.Practicing, "Web Dev", "Hooks and stuff"));
+topicTracker.add(new LearningTopicEntry("React", LearningStatus.Practicing, "Web Dev", "Hooks and stuff"));
 sessionTracker.add(new LearningSession(45, "video", "Watched a YouTube tutorial"));
 
 topicTracker.printAll();
