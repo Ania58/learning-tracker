@@ -184,6 +184,10 @@ private entries: T[] = [];
       : b.date.getTime() - a.date.getTime();
     })
   }
+
+  exportToJSON(): string {
+    return JSON.stringify(this.entries, null, 2);
+  }
 };
 
 const topicTracker = new Tracker<LearningTopicEntry>();
@@ -203,6 +207,9 @@ console.log("Sorted by date (desc):");
 topicTracker.sortByDate("desc").forEach(entry => entry.print());
 
 
-
 topicTracker.printAll();
 sessionTracker.printAll();
+
+const exported = topicTracker.exportToJSON();
+console.log("Exported JSON:");
+console.log(exported);
