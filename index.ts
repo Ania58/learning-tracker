@@ -153,8 +153,8 @@ enum LearningStatus {
 const topic = new LearningTopicEntry("TypeScript", LearningStatus.Practicing, "Tech", "Reviewing advanced types");
 const session = new LearningSession(60, "reading", "Studied TypeScript docs");
 
-topic.print();
-session.print();
+//topic.print();
+//session.print();
 
 class Tracker<T extends LearningEntry> {
 private entries: T[] = [];
@@ -176,6 +176,14 @@ private entries: T[] = [];
     const lowerText = text.toLowerCase();
     return this.entries.filter(entry => entry.notes?.toLowerCase().includes(lowerText));
   }
+
+  sortByDate(order: "asc" | "desc" = "asc") : T[] {
+    return [...this.entries].sort((a,b) => {
+      return order === "asc"
+      ? a.date.getTime() - b.date.getTime()
+      : b.date.getTime() - a.date.getTime();
+    })
+  }
 };
 
 const topicTracker = new Tracker<LearningTopicEntry>();
@@ -190,6 +198,10 @@ sessionTracker.add(session);
 console.log("Filtered entries:");
 const filtered = topicTracker.filterByNoteIncludes("TypeScript");
 filtered.forEach(entry => entry.print());
+
+console.log("Sorted by date (desc):");
+topicTracker.sortByDate("desc").forEach(entry => entry.print());
+
 
 
 topicTracker.printAll();
