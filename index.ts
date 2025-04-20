@@ -172,6 +172,10 @@ private entries: T[] = [];
     console.log(`Removing entry with ID ${id}`);
     return true;
   }
+  filterByNoteIncludes(text: string) : T[] {
+    const lowerText = text.toLowerCase();
+    return this.entries.filter(entry => entry.notes?.toLowerCase().includes(lowerText));
+  }
 };
 
 const topicTracker = new Tracker<LearningTopicEntry>();
@@ -179,6 +183,14 @@ const sessionTracker = new Tracker<LearningSession>();
 
 topicTracker.add(new LearningTopicEntry("React", LearningStatus.Practicing, "Web Dev", "Hooks and stuff"));
 sessionTracker.add(new LearningSession(45, "video", "Watched a YouTube tutorial"));
+
+topicTracker.add(topic); 
+sessionTracker.add(session);
+
+console.log("Filtered entries:");
+const filtered = topicTracker.filterByNoteIncludes("TypeScript");
+filtered.forEach(entry => entry.print());
+
 
 topicTracker.printAll();
 sessionTracker.printAll();
