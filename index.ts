@@ -155,3 +155,30 @@ const session = new LearningSession(60, "reading", "Studied TypeScript docs");
 
 topic.print();
 session.print();
+
+class Tracker<T extends LearningEntry> {
+private entries: T[] = [];
+
+  add(entry: T): void {
+    this.entries.push(entry);
+  }
+  printAll(): void {
+    this.entries.forEach((entry) => entry.print());
+  }
+  remove(id: number): boolean {
+    const index = this.entries.findIndex(entry => entry.id === id);
+    if (index === -1) return false;
+    this.entries.splice(index, 1);
+    console.log(`Removing entry with ID ${id}`);
+    return true;
+  }
+};
+
+const topicTracker = new Tracker<LearningTopic2>();
+const sessionTracker = new Tracker<LearningSession>();
+
+topicTracker.add(new LearningTopic2("React", LearningStatus.Practicing, "Web Dev", "Hooks and stuff"));
+sessionTracker.add(new LearningSession(45, "video", "Watched a YouTube tutorial"));
+
+topicTracker.printAll();
+sessionTracker.printAll();
